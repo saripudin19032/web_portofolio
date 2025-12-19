@@ -57,5 +57,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    console.log("Website Dimuat - Personal Branding Siap");
+    // Active Link Highlight (Scroll Spy)
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+    function highlightNav() {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (window.scrollY >= (sectionTop - 150)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            const isButton = link.classList.contains('bg-slate-900') || link.classList.contains('bg-primary');
+
+            if (current && href.includes(current)) {
+                // Active State
+                if (isButton) {
+                    link.classList.remove('bg-slate-900', 'hover:bg-slate-800');
+                    link.classList.add('bg-primary', 'hover:bg-indigo-600');
+                } else {
+                    link.classList.remove('text-slate-600');
+                    link.classList.add('text-primary');
+                }
+            } else {
+                // Inactive State
+                if (isButton) {
+                    link.classList.remove('bg-primary', 'hover:bg-indigo-600');
+                    link.classList.add('bg-slate-900', 'hover:bg-slate-800');
+                } else {
+                    link.classList.remove('text-primary');
+                    link.classList.add('text-slate-600');
+                }
+            }
+        });
+    }
+
+    window.addEventListener('scroll', highlightNav);
+    highlightNav();
+
 });
